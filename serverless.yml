@@ -37,3 +37,4 @@ functions:
 plugins:
   - serverless-offline
   - serverless-dotenv-plugin
+  - serverless-plugin-split-stacks
