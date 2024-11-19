@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon app.js"
+    "dev": "sam local start-api"
   },
   "author": "",
   "license": "ISC",
@@ -15,11 +15,7 @@
     "express": "^4.21.1",
     "mysql2": "^3.11.4",
     "nodemailer": "^6.9.16",
-    "serverless-dotenv-plugin": "^6.0.0",
     "serverless-http": "^3.2.0",
     "serverless-plugin-split-stacks": "^1.14.0"
-  },
-  "devDependencies": {
-    "serverless-offline": "^14.3.4"
   }
 }

@@ -1,0 +1,6 @@
+version = 0.1
+[default.deploy.parameters]
+stack_name = "firsttracksolutiontechnologies-backend"
+s3_bucket = "firsttracksolutiontechnologies-backend-sam"
+region = "ap-south-1"
+capabilities = "CAPABILITY_IAM"
