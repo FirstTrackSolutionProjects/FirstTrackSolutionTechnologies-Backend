@@ -40,6 +40,11 @@ Parameters:
     Default: firsttracksolutiontechnologies-backend
 
 Resources:
+  ApiGateway:
+    Type: AWS::Serverless::Api
+    Properties:
+      StageName: api
+
   AppFunction:
     Type: AWS::Serverless::Function
     Properties:
@@ -69,8 +74,10 @@ Resources:
         ProxyApi:
           Type: Api
           Properties:
+            RestApiId: !Ref ApiGateway
             Path: /{proxy+}
             Method: ANY
+
 Outputs:
   AppFunctionArn:
     Description: Lambda Function ARN
@@ -81,4 +88,4 @@ Outputs:
   ApiUrl:
     Description: API Gateway endpoint URL
     Value:
-      Fn::Sub: https://${AWS::StackName}.execute-api.${AWS::Region}.amazonaws.com/api/
+      Fn::Sub: https://${ApiGateway}.execute-api.${AWS::Region}.amazonaws.com/api/
