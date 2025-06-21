@@ -6,7 +6,7 @@ const getGetSignedUrl = async (req, res) => {
         return res.status(400).json({ message: 'Missing key' });
     }
     const params = {
-        Bucket: process.env.S3_BUCKET_NAME_,
+        Bucket: process.env.HRMS_S3_BUCKET_NAME_,
         Key: key,
         Expires: 60,
     };
@@ -25,11 +25,11 @@ const getGetSignedUrl = async (req, res) => {
 
 const getPutSignedUrl = async (req, res) => {
     const { filename, filetype, isPublic } = req.body;
-    if (!filename || !filetype){
+    if (!filename || !filetype) {
         return res.status(400).json({ message: 'Missing filename or filetype' });
     }
     const params = {
-        Bucket: process.env.S3_BUCKET_NAME_,
+        Bucket: process.env.HRMS_S3_BUCKET_NAME_,
         Key: filename,
         Expires: 60,
         ContentType: filetype,
