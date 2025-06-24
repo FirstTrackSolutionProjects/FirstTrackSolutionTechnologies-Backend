@@ -120,8 +120,14 @@ const joiningMail = async (req, res) => {
 
     const joinUsRequestId = joinUsRequests[0]?.id;
 
-    await transaction.execute(
-      `INSERT INTO join_us_request_submissions (
+    await transaction.execute(`
+      UPDATE Join_Us_Request_Submissions
+      SET is_active = false
+      WHERE join_us_request_id = ?
+      `,[joinUsRequestId]);
+
+    const [submission] = await transaction.execute(
+      `INSERT INTO Join_Us_Request_Submissions (
         join_us_request_id, address, landmark, city, state, pincode, country,
         mothers_name, fathers_name,
         permanent_address_landmark, permanent_street_address,
@@ -132,8 +138,8 @@ const joiningMail = async (req, res) => {
         graduation_doc, post_graduation_doc,
         pan_doc, aadhaar_doc, passbook_doc, experience_doc,
         last_three_month_salary_doc, photo_doc,
-        age, gender, dob, blood_group, marital_status
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+        age, gender, dob, blood_group, marital_status, is_active
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
       [
         joinUsRequestId,
         streetAddress,
@@ -168,16 +174,28 @@ const joiningMail = async (req, res) => {
         gender,
         dob,
         bloodGroup,
-        maritalStatus
+        maritalStatus,
+        true
       ]
     );
 
+    const submissionId = submission.insertId;
+
     await transaction.execute(`
-      UPDATE join_us_requests
-      SET status = "RECEIVED", received_at = ?
+      UPDATE Join_Us_Requests
+      SET status = "RECEIVED", 
+          action_at = ?, 
+          action_by = NULL, 
+          description = "Submission Received"
       WHERE id = ?`,
       [new Date(), joinUsRequestId]
     );
+
+    await transaction.execute(`
+      INSERT INTO Join_Us_Request_Events
+      (join_us_request_id, name, description, submission_id)
+      VALUES (?, ?, ?, ?)
+      `, [joinUsRequestId, 'RECEIVED', 'Submission Received', submissionId]);
 
     const mailOptionsToHr = require("../mailTemplates/sendHRSubmissionEmail")({
       firstName,

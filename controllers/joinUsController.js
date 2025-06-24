@@ -10,7 +10,7 @@ const validateJoinUsAuth = async (req, res) => {
         if (!email || !password){
             return res.status(400).json({ message: "Email and password are required" })
         }
-        const [requests] = await hrms_db.query(`SELECT * FROM join_us_requests WHERE email = ? AND status = "PENDING"`, [email]);
+        const [requests] = await hrms_db.query(`SELECT * FROM Join_Us_Requests WHERE email = ? AND status = "PENDING"`, [email]);
         if (!requests.length){
             return res.status(400).json({ message: "Invalid email or password" })
         }
@@ -46,7 +46,7 @@ const getJoinUsRequest = async (req, res) => {
         }
         const decoded = jwt.verify(token, JWT_SECRET);
         const requestId = decoded.requestId;
-        const [requests] = await hrms_db.query(`SELECT * FROM join_us_requests WHERE id = ? AND status = "PENDING"`, [requestId]);
+        const [requests] = await hrms_db.query(`SELECT * FROM Join_Us_Requests WHERE id = ? AND status = "PENDING"`, [requestId]);
         if (!requests.length) {
             return res.status(404).json({ message: "Request not found" });
         }
