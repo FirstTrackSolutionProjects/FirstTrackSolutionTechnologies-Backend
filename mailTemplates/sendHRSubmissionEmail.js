@@ -1,7 +1,8 @@
 const HRMS_BUCKET_URL = process.env.HRMS_BUCKET_URL;
 
 const sendHRSubmissionEmail = ({
-  firstName, lastName, fathersName, mothersName, email, phone, age, dob,
+  firstName, lastName, fathersName, mothersName,guardianName,
+  guardianRelation, parentsGuardianMobile, email, phone, age, dob,
   bloodGroup, maritalStatus, gender, aadhaar, pan, qualification,
   landmark, streetAddress, city, state, country, postalCode,
   isPermanentAddressSame, permanentAddressLandmark, permanentStreetAddress,
@@ -39,6 +40,9 @@ const sendHRSubmissionEmail = ({
           <li><strong>Last Name:</strong> ${lastName}</li>
           <li><strong>Father's Name:</strong> ${fathersName}</li>
           <li><strong>Mother's Name:</strong> ${mothersName}</li>
+          ${guardianName ? `<li><strong>Guardian's Name:</strong> ${guardianName}</li>` : ''}
+          ${guardianRelation ? `<li><strong>Guardian's Relation:</strong> ${guardianRelation}</li>` : ''}
+          <li><strong>Parents/Guardian Phone:</strong> ${parentsGuardianMobile}</li>
           <li><strong>Email:</strong> ${email}</li>
           <li><strong>Phone:</strong> ${phone}</li>
           <li><strong>Age:</strong> ${age}</li>
