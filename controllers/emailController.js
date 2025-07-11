@@ -6,7 +6,15 @@ const jwt = require('jsonwebtoken');
 const JWT_SECRET = process.env.JWT_SECRET;
 const careerMail = async (req, res) => {
   const {formData, cvKey} = req.body;
-    const {firstName,lastName,email,phone,description,streetAddress,city,postalCode,country, qualification, course, gender, dob} = formData;
+    const {firstName,lastName,email,phone,description,streetAddress,city, state, postalCode,country, qualification, course, gender, dob} = formData;
+
+    const transaction = await hrms_db.beginTransaction();
+    await transaction.query(`
+      INSERT INTO Career_Submissions (first_name, last_name, email, mobile, description, address, city, state, pincode, country, qualification, applied_for, gender, dob, cv_doc)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+      `,[
+        firstName,lastName,email,phone,description,streetAddress,city, state, postalCode,country, qualification, course, gender, dob, cvKey
+      ])
     let mailOptions = {
         from: process.env.EMAIL_USER,
         to: `${process.env.CAREER_EMAIL},${process.env.ADMIN_EMAIL}`,
@@ -21,6 +29,7 @@ const careerMail = async (req, res) => {
           <p><strong>Date of Birth:</strong> ${dob}</p>
           <p><strong>Street Address:</strong> ${streetAddress}</p>
           <p><strong>City:</strong> ${city}</p>
+          <p><strong>State:</strong> ${state}</p>
           <p><strong>Postal Code:</strong> ${postalCode}</p>
           <p><strong>Country:</strong> ${country}</p>
           <p><strong>Qualification:</strong> ${qualification}</p>
@@ -31,24 +40,37 @@ const careerMail = async (req, res) => {
     };
   try {
     await transporter.sendMail(mailOptions)
+    await transaction.commit();
     return res.status(200).json({ status: 200, message: 'Form submitted successfully', success: true });
   } catch (e) {
+    await transaction.rollback();
     return res.status(500).json({ status: 500, message: 'Failed to send email. Please try again.' });
   }
 }
 
 const contactEmail = async (req, res) => {
   const { firstName, lastName, email, phone, description } = req.body;
+  if (!firstName || !lastName || !email || !phone || !description) {
+    return res.status(400).json({ status: 400, message: 'Please fill in all fields.' });
+  }
+
+  const transaction = await hrms_db.beginTransaction();
+  await transaction.query(`INSERT INTO Contact_Submissions (first_name, last_name, email, mobile, message)
+    VALUES (?,?,?,?,?)`, [firstName, lastName, email, phone, description]);
+
   let mailOptions = {
     from: process.env.EMAIL_USER,
-    to: `${process.env.EMAIL_USER}`,
+    to: `${process.env.CONTACT_EMAIL}`,
     subject: 'Contact Submission',
     text: `This is a contact submission mail \n${firstName} \n${lastName} \n${email} \n${phone} \n${description}`
   };
   try {
     await transporter.sendMail(mailOptions)
+    await transaction.commit();
     return res.status(200).json({ status: 200, message: 'Email sent successfully!' });
   } catch (e) {
+    console.error(e)
+    await transaction.rollback();
     return res.status(500).json({ status: 500, message: 'Failed to send email. Please try again.' });
   }
 }
