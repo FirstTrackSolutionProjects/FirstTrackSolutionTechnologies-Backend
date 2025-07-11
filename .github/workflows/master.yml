@@ -50,4 +50,16 @@ jobs:
               EmailPort=${{ vars.EMAIL_PORT }} \
               EmailSecure=${{ vars.EMAIL_SECURE }} \
               EmailUser=${{ vars.EMAIL_USER }} \
-              JwtSecret=${{ vars.JWT_SECRET }}
+              JwtSecret=${{ vars.JWT_SECRET }} \
+              CareerEmail=${{ vars.CAREER_EMAIL }} \
+              ContactEmail=${{ vars.CONTACT_EMAIL }} \
+              HrmsAwsAccessKeyId=${{ vars.HRMS_AWS_ACCESS_KEY_ID_ }} \
+              HrmsAwsSecretAccessKey=${{ vars.HRMS_AWS_SECRET_ACCESS_KEY_ }} \
+              HrmsAwsRegion=${{ vars.HRMS_AWS_REGION_ }} \
+              HrmsBucketUrl=${{ vars.HRMS_BUCKET_URL }} \
+              HrmsDbHost=${{ vars.HRMS_DB_HOST }} \
+              HrmsDbName=${{ vars.HRMS_DB_NAME }} \
+              HrmsDbPassword=${{ vars.HRMS_DB_PASSWORD }} \
+              HrmsDbUser=${{ vars.HRMS_DB_USER }} \
+              HrmsS3BucketName=${{ vars.HRMS_S3_BUCKET_NAME_ }} \
+              HrEmailPass=${{ vars.HR_EMAIL_PASS }}
