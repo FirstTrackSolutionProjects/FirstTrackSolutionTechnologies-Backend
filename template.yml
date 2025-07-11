@@ -34,6 +34,30 @@ Parameters:
     Type: String
   JwtSecret:
     Type: String
+  CareerEmail:
+    Type: String
+  ContactEmail:
+    Type: String
+  HrmsAwsAccessKeyId:
+    Type: String
+  HrmsAwsSecretAccessKey:
+    Type: String
+  HrmsAwsRegion:
+    Type: String
+  HrmsBucketUrl:
+    Type: String
+  HrmsDbHost:
+    Type: String
+  HrmsDbName:
+    Type: String
+  HrmsDbPassword:
+    Type: String
+  HrmsDbUser:
+    Type: String
+  HrmsS3BucketName:
+    Type: String
+  HrEmailPass:
+    Type: String
   StackName:
     Type: String
     Description: Name of the CloudFormation stack
