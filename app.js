@@ -19,8 +19,8 @@ app.use('/join-us-requests', joinUsRoutes);
 app.use('/hrms-s3', hrmsS3Routes);
 
 
-// module.exports.handler = serverless(app);
+module.exports.handler = serverless(app);
 
-app.listen(3100, ()=>{
-    console.log('Server is running on port 3100')
-})
+// app.listen(3100, ()=>{
+//     console.log('Server is running on port 3100')
+// })
