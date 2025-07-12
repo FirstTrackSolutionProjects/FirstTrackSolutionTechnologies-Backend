@@ -94,6 +94,19 @@ Resources:
           EMAIL_SECURE: !Ref EmailSecure
           EMAIL_USER: !Ref EmailUser
           JWT_SECRET: !Ref JwtSecret
+          CAREER_EMAIL: !Ref CareerEmail
+          CONTACT_EMAIL: !Ref ContactEmail
+          HRMS_AWS_ACCESS_KEY_ID_: !Ref HrmsAwsAccessKeyId
+          HRMS_AWS_REGION_: !Ref HrmsAwsRegion
+          HRMS_AWS_SECRET_ACCESS_KEY_: !Ref HrmsAwsSecretAccessKey
+          HRMS_BUCKET_URL: !Ref HrmsBucketUrl
+          HRMS_DB_HOST: !Ref HrmsDbHost
+          HRMS_DB_NAME: !Ref HrmsDbName
+          HRMS_DB_PASSWORD: !Ref HrmsDbPassword
+          HRMS_DB_USER: !Ref HrmsDbUser
+          HRMS_S3_BUCKET_NAME_: !Ref HrmsS3BucketName
+          HR_EMAIL: !Ref HrEmail
+          HR_EMAIL_PASS: !Ref HrEmailPass
       Events:
         ProxyApi:
           Type: Api
