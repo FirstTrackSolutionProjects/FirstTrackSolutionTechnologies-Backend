@@ -4,6 +4,8 @@ const hrms_db = require('../utils/hrms_db')
 const jwt = require('jsonwebtoken');
 
 const JWT_SECRET = process.env.JWT_SECRET;
+
+const HRMS_BUCKET_URL = process.env.HRMS_BUCKET_URL;
 const careerMail = async (req, res) => {
   const {formData, cvKey} = req.body;
     const {firstName,lastName,email,phone,description,streetAddress,city, state, postalCode,country, qualification, course, gender, dob} = formData;
@@ -35,7 +37,7 @@ const careerMail = async (req, res) => {
           <p><strong>Qualification:</strong> ${qualification}</p>
           <p><strong>Position Applied For:</strong> ${course}</p>
           <p><strong>Description:</strong> ${description}</p>
-          <p><strong>Resume:</strong> <a href="https://firsttracksolution-docs.s3.ap-south-1.amazonaws.com/${cvKey}">View Resume</a></p>
+          <p><strong>Resume:</strong> <a href="${HRMS_BUCKET_URL}${cvKey}">View Resume</a></p>
         `
     };
   try {
